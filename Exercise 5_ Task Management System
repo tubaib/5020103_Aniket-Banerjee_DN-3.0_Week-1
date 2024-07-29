@@ -1,0 +1,140 @@
+Step 1: Understand Linked Lists
+Types of Linked Lists
+Singly Linked List: Each node contains data and a reference (or link) to the next node in the sequence. It allows for efficient insertion and deletion from the beginning of the list.
+Doubly Linked List: Each node contains data and two references: one to the next node and one to the previous node. This allows traversal in both directions and makes insertion and deletion more flexible.
+
+Step 2: Setup
+class Task {
+    int taskId;
+    String taskName;
+    String status;
+
+    public Task(int taskId, String taskName, String status) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+}
+
+Step 3: Implementation
+Implement a Singly Linked List to Manage Tasks
+class Node {
+    Task task;
+    Node next;
+
+    public Node(Task task) {
+        this.task = task;
+        this.next = null;
+    }
+}
+
+class SinglyLinkedList {
+    private Node head;
+
+    public SinglyLinkedList() {
+        this.head = null;
+    }
+
+    
+    public void addTask(Task task) {
+        Node newNode = new Node(task);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+   
+    public Task searchTask(int taskId) {
+        Node current = head;
+        while (current != null) {
+            if (current.task.taskId == taskId) {
+                return current.task;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    
+    public void traverseTasks() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.task);
+            current = current.next;
+        }
+    }
+
+   
+    public void deleteTask(int taskId) {
+        if (head == null) {
+            return;
+        }
+        if (head.task.taskId == taskId) {
+            head = head.next;
+            return;
+        }
+        Node current = head;
+        while (current.next != null && current.next.task.taskId != taskId) {
+            current = current.next;
+        }
+        if (current.next != null) {
+            current.next = current.next.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        SinglyLinkedList taskList = new SinglyLinkedList();
+        
+        Task task1 = new Task(1, "Task 1", "Pending");
+        Task task2 = new Task(2, "Task 2", "Completed");
+        Task task3 = new Task(3, "Task 3", "In Progress");
+
+        taskList.addTask(task1);
+        taskList.addTask(task2);
+        taskList.addTask(task3);
+
+        System.out.println("All tasks:");
+        taskList.traverseTasks();
+
+        System.out.println("\nSearch for task with ID 2:");
+        Task searchResult = taskList.searchTask(2);
+        System.out.println(searchResult != null ? searchResult : "Task not found.");
+
+        System.out.println("\nDelete task with ID 2:");
+        taskList.deleteTask(2);
+        taskList.traverseTasks();
+    }
+}
+Step 4: Analysis
+Time Complexity of Each Operation
+Add:
+Best Case: O(1) (when adding to the beginning)
+Average/Worst Case: O(n) (when adding to the end and traversing the entire list)
+Search:
+Best Case: O(1) (when the element is the first one)
+Average/Worst Case: O(n)
+Traverse:
+Best Case: O(n)
+Worst Case: O(n)
+Delete:
+Best Case: O(1) (when the element to be deleted is the first one)
+Average/Worst Case: O(n)
+Advantages of Linked Lists Over Arrays for Dynamic Data
+Dynamic Size: Linked lists can grow and shrink in size dynamically, unlike arrays which have a fixed size.
+Efficient Insertions/Deletions: Insertions and deletions can be done efficiently without the need to shift elements, as is required in arrays.
+Memory Utilization: Linked lists use memory more efficiently as they do not need to allocate memory in contiguous blocks.
