@@ -1,0 +1,141 @@
+Step 1: Understand Array Representation
+How Arrays are Represented in Memory
+Memory Representation: Arrays are a contiguous block of memory locations, where each element is stored next to its predecessor.
+Indexing: Each element in the array can be accessed using an index, which represents its position in the array. The index is zero-based in most programming languages.
+Advantages:
+Fast Access: Constant time access (O(1)) to elements using their index.
+Efficient Traversal: Easy to iterate over elements sequentially.
+
+Step 2: Setup
+class Employee {
+    int employeeId;
+    String name;
+    String position;
+    double salary;
+
+    public Employee(int employeeId, String name, String position, double salary) {
+        this.employeeId = employeeId;
+        this.name = name;
+        this.position = position;
+        this.salary = salary;
+    }
+
+   
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", name='" + name + '\'' +
+                ", position='" + position + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
+}
+Step 3: Implementation
+Use an Array to Store Employee Records and Implement Methods
+import java.util.Arrays;
+
+public class EmployeeManagementSystem {
+    private Employee[] employees;
+    private int size;
+    private int capacity;
+
+    public EmployeeManagementSystem(int capacity) {
+        this.capacity = capacity;
+        this.employees = new Employee[capacity];
+        this.size = 0;
+    }
+
+    public void addEmployee(Employee employee) {
+        if (size == capacity) {
+            System.out.println("Employee array is full. Cannot add more employees.");
+            return;
+        }
+        employees[size] = employee;
+        size++;
+    }
+
+    public Employee searchEmployee(int employeeId) {
+        for (int i = 0; i < size; i++) {
+            if (employees[i].employeeId == employeeId) {
+                return employees[i];
+            }
+        }
+        return null;
+    }
+
+    public void traverseEmployees() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(employees[i]);
+        }
+    }
+
+    public void deleteEmployee(int employeeId) {
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (employees[i].employeeId == employeeId) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Employee not found.");
+            return;
+        }
+
+       
+        for (int i = index; i < size - 1; i++) {
+            employees[i] = employees[i + 1];
+        }
+
+        
+        employees[size - 1] = null;
+        size--;
+    }
+
+    public static void main(String[] args) {
+        EmployeeManagementSystem ems = new EmployeeManagementSystem(5);
+
+        Employee emp1 = new Employee(1, "Alice", "Manager", 75000);
+        Employee emp2 = new Employee(2, "Bob", "Developer", 60000);
+        Employee emp3 = new Employee(3, "Charlie", "Designer", 50000);
+
+        ems.addEmployee(emp1);
+        ems.addEmployee(emp2);
+        ems.addEmployee(emp3);
+
+        System.out.println("All Employees:");
+        ems.traverseEmployees();
+
+        System.out.println("\nSearch for Employee with ID 2:");
+        Employee searchResult = ems.searchEmployee(2);
+        System.out.println(searchResult != null ? searchResult : "Employee not found.");
+
+        System.out.println("\nDelete Employee with ID 2:");
+        ems.deleteEmployee(2);
+        ems.traverseEmployees();
+    }
+}
+
+Step 4: Analysis
+Time Complexity of Each Operation
+Add:
+Best Case: O(1) (when there is space available in the array)
+Worst Case: O(1)
+Search:
+Best Case: O(1) (when the element is the first one in the array)
+Average Case: O(n)
+Worst Case: O(n)
+Traverse:
+Best Case: O(n)
+Worst Case: O(n)
+Delete:
+Best Case: O(1) (when the element to be deleted is the last one)
+Average Case: O(n)
+Worst Case: O(n)
+Limitations of Arrays
+Fixed Size: The size of the array is fixed upon creation, which can lead to wasted space if the array is not fully utilized or insufficient space if more elements need to be added.
+Insertion/Deletion: Inserting or deleting elements in the middle of the array requires shifting elements, which can be time-consuming (O(n)).
+When to Use Arrays
+Static Data: Arrays are suitable when the number of elements is known in advance and does not change frequently.
+Fast Access: Arrays provide constant time access to elements using their index, making them ideal for applications requiring frequent read operations.
