@@ -1,0 +1,152 @@
+1. Understand the Problem:
+Importance of Data Structures and Algorithms:
+Data structures and algorithms are critical in handling large inventories because they:
+
+Improve Performance: Efficient data structures and algorithms ensure quick data retrieval and manipulation, which is vital for large-scale inventories.
+Simplify Complexity: They help manage the complexity of operations like searching, sorting, adding, updating, and deleting products.
+Optimize Resource Utilization: Proper data structures optimize memory and CPU usage, preventing performance degradation.
+Suitable Data Structures:
+ArrayList: Ideal for dynamic arrays with fast random access but slower insertions and deletions compared to linked lists.
+HashMap: Excellent for associative arrays or dictionaries with average O(1) time complexity for insertions, deletions, and lookups.
+LinkedList: Efficient for insertions and deletions but has slower access time compared to arrays.
+TreeMap: Keeps entries sorted, offering O(log n) time complexity for insertions, deletions, and lookups.
+
+3.Implementation:
+public class Product {
+    private int productId;
+    private String productName;
+    private int quantity;
+    private double price;
+
+    public Product(int productId, String productName, int quantity, double price) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
+}
+
+We will use a ArrayList.
+Implement the Inventory Management System:
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class InventoryManagementSystem {
+    private List<Product> inventory;
+
+    public InventoryManagementSystem() {
+        inventory = new ArrayList<>();
+    }
+
+    public void addProduct(Product product) {
+        inventory.add(product);
+    }
+
+    public void updateProduct(int productId, String productName, int quantity, double price) {
+        for (Product product : inventory) {
+            if (product.getProductId() == productId) {
+                if (productName != null) {
+                    product.setProductName(productName);
+                }
+                if (quantity >= 0) {
+                    product.setQuantity(quantity);
+                }
+                if (price >= 0) {
+                    product.setPrice(price);
+                }
+                return;
+            }
+        }
+        System.out.println("Product with ID " + productId + " does not exist.");
+    }
+
+    public void deleteProduct(int productId) {
+        Iterator<Product> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getProductId() == productId) {
+                iterator.remove();
+                return;
+            }
+        }
+        System.out.println("Product with ID " + productId + " does not exist.");
+    }
+
+    public Product getProduct(int productId) {
+        for (Product product : inventory) {
+            if (product.getProductId() == productId) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        InventoryManagementSystem ims = new InventoryManagementSystem();
+
+        Product product1 = new Product(1, "Laptop", 50, 1500.00);
+        Product product2 = new Product(2, "Mouse", 200, 25.00);
+
+        ims.addProduct(product1);
+        ims.addProduct(product2);
+
+        ims.updateProduct(1, "Gaming Laptop", 45, 1400.00);
+
+        System.out.println(ims.getProduct(1));
+
+        ims.deleteProduct(2);
+        System.out.println(ims.getProduct(2)); 
+    }
+}
+
+4.Analysis:
+Time Complexity:
+Add Product: O(1) for adding to the end of the ArrayList.
+Update Product: O(n) for searching through the ArrayList.
+Delete Product: O(n) for searching through the ArrayList.
+Optimization:
+Batch Operations: Implement batch add, update, and delete to minimize the overhead of multiple function calls.
+Indexing: Use secondary indices for frequently searched attributes like productName.
+Data Partitioning: For extremely large inventories, consider partitioning data across multiple storage nodes or using a distributed hash table.
+Caching: Implement caching mechanisms for frequently accessed products to reduce lookup times.
+
+
