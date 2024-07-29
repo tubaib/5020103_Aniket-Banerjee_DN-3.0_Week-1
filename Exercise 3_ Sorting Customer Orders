@@ -1,0 +1,133 @@
+Step 1: Understand Sorting Algorithms
+Bubble Sort
+Description: Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. This process is repeated until the list is sorted.
+Time Complexity:
+Best Case: O(n) (when the list is already sorted)
+Average Case: O(n^2)
+Worst Case: O(n^2)
+Quick Sort
+Description: Quick Sort is a divide-and-conquer algorithm that selects a 'pivot' element and partitions the array into two sub-arrays: elements less than the pivot and elements greater than the pivot. It then recursively sorts the sub-arrays.
+Time Complexity:
+Best Case: O(n log n)
+Average Case: O(n log n)
+Worst Case: O(n^2) (when the pivot selection is poor)
+
+Step 2: Setup
+class Order {
+    int orderId;
+    String customerName;
+    double totalPrice;
+
+    public Order(int orderId, String customerName, double totalPrice) {
+        this.orderId = orderId;
+        this.customerName = customerName;
+        this.totalPrice = totalPrice;
+    }
+
+   
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", customerName='" + customerName + '\'' +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
+}
+
+Step 3: Implementation
+Implement Bubble Sort to Sort Orders by totalPrice
+public class OrderSorting {
+
+    public static void bubbleSort(Order[] orders) {
+        int n = orders.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (orders[j].totalPrice > orders[j + 1].totalPrice) {
+                   
+                    Order temp = orders[j];
+                    orders[j] = orders[j + 1];
+                    orders[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void quickSort(Order[] orders, int low, int high) {
+        if (low < high) {
+            int pi = partition(orders, low, high);
+            quickSort(orders, low, pi - 1);
+            quickSort(orders, pi + 1, high);
+        }
+    }
+
+    private static int partition(Order[] orders, int low, int high) {
+        Order pivot = orders[high];
+        int i = (low - 1); 
+        for (int j = low; j < high; j++) {
+            if (orders[j].totalPrice < pivot.totalPrice) {
+                i++;
+               
+                Order temp = orders[i];
+                orders[i] = orders[j];
+                orders[j] = temp;
+            }
+        }
+       
+        Order temp = orders[i + 1];
+        orders[i + 1] = orders[high];
+        orders[high] = temp;
+
+        return i + 1;
+    }
+
+    public static void main(String[] args) {
+        Order[] orders = {
+            new Order(1, "Alice", 250.0),
+            new Order(2, "Bob", 150.0),
+            new Order(3, "Charlie", 300.0),
+            new Order(4, "David", 200.0)
+        };
+
+        System.out.println("Orders before sorting:");
+        for (Order order : orders) {
+            System.out.println(order);
+        }
+
+        
+        bubbleSort(orders);
+        System.out.println("\nOrders after Bubble Sort:");
+        for (Order order : orders) {
+            System.out.println(order);
+        }
+
+       
+        orders = new Order[] {
+            new Order(1, "Alice", 250.0),
+            new Order(2, "Bob", 150.0),
+            new Order(3, "Charlie", 300.0),
+            new Order(4, "David", 200.0)
+        };
+
+       
+        quickSort(orders, 0, orders.length - 1);
+        System.out.println("\nOrders after Quick Sort:");
+        for (Order order : orders) {
+            System.out.println(order);
+        }
+    }
+}
+
+Step 4: Analysis
+Performance Comparison
+Bubble Sort:
+Best Case: O(n) (when the list is already sorted)
+Average Case: O(n^2)
+Worst Case: O(n^2)
+Quick Sort:
+Best Case: O(n log n)
+Average Case: O(n log n)
+Worst Case: O(n^2) (when the pivot selection is poor)
+Why Quick Sort is Preferred Over Bubble Sort
+Efficiency: Quick Sort is significantly faster on average for large datasets compared to Bubble Sort due to its O(n log n) time complexity.
+Scalability: Quick Sort performs well even with large datasets, while Bubble Sort becomes inefficient as the dataset size increases.
+Use of Divide and Conquer: Quick Sort effectively uses the divide-and-conquer strategy to reduce the problem size, leading to better performance in practical scenarios.
