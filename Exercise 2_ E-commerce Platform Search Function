@@ -1,0 +1,97 @@
+Step 1: Understand Asymptotic Notation
+Big O Notation
+Big O Notation: Big O notation is a mathematical representation used to describe the upper bound of an algorithm's runtime or space complexity in terms of the input size (n). It characterizes the performance of an algorithm by describing how the runtime or space requirements grow as the input size increases.
+Purpose: It helps in analyzing and comparing the efficiency of algorithms, especially for large input sizes.
+Best, Average, and Worst-Case Scenarios
+Best Case: The scenario where the algorithm performs the minimum number of operations.
+Average Case: The expected number of operations an algorithm performs, averaged over all possible inputs.
+Worst Case: The scenario where the algorithm performs the maximum number of operations.
+
+Step 2: Setup
+class Product {
+    int productId;
+    String productName;
+    String category;
+
+    public Product(int productId, String productName, String category) {
+        this.productId = productId;
+        this.productName = productName;
+        this.category = category;
+    }
+
+    
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
+}
+
+Step 3: Implementation
+Implement Linear Search and Binary Search Algorithms
+import java.util.Arrays;
+
+public class ProductSearch {
+    public static void main(String[] args) {
+        Product[] products = {
+                new Product(1, "Laptop", "Electronics"),
+                new Product(2, "Shampoo", "Personal Care"),
+                new Product(3, "Chair", "Furniture")
+        };
+
+        Product[] sortedProducts = Arrays.copyOf(products, products.length);
+        Arrays.sort(sortedProducts, (p1, p2) -> p1.productName.compareTo(p2.productName));
+
+        
+        System.out.println("Linear Search for 'Shampoo': " + linearSearch(products, "Shampoo"));
+
+        
+        System.out.println("Binary Search for 'Shampoo': " + binarySearch(sortedProducts, "Shampoo"));
+    }
+
+    
+    public static Product linearSearch(Product[] products, String productName) {
+        for (Product product : products) {
+            if (product.productName.equals(productName)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    
+    public static Product binarySearch(Product[] products, String productName) {
+        int low = 0;
+        int high = products.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int comparison = products[mid].productName.compareTo(productName);
+
+            if (comparison == 0) {
+                return products[mid];
+            } else if (comparison < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return null;
+    }
+}
+
+Step 4: Analysis
+Time Complexity
+Linear Search: O(n)
+Best Case: O(1)
+Average Case: O(n)
+Worst Case: O(n)
+Binary Search: O(log n)
+Best Case: O(1)
+Average Case: O(log n)
+Worst Case: O(log n)
+Which Algorithm is More Suitable
+Linear Search: Suitable for small datasets or when the list is unsorted.
+Binary Search: Suitable for larger datasets where search efficiency is crucial, provided the list is sorted. It significantly reduces the number of comparisons needed to find an element.
