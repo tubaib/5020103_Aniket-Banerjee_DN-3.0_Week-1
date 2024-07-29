@@ -1,0 +1,125 @@
+Step 1: Understand Search Algorithms
+Linear Search
+Description: Linear search iterates through each element in the array until it finds the target element or reaches the end of the array.
+Time Complexity:
+Best Case: O(1) (when the element is the first one in the array)
+Average Case: O(n)
+Worst Case: O(n)
+Binary Search
+Description: Binary search works on sorted arrays by repeatedly dividing the search interval in half. It compares the target value to the middle element of the array. If they are not equal, it eliminates half of the search interval and continues the search in the remaining half.
+Time Complexity:
+Best Case: O(1) (when the middle element is the target)
+Average Case: O(log n)
+Worst Case: O(log n)
+
+Step 2: Setup
+class Book {
+    int bookId;
+    String title;
+    String author;
+
+    public Book(int bookId, String title, String author) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+    }
+
+   
+    public String toString() {
+        return "Book{" +
+                "bookId=" + bookId +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
+}
+
+Step 3: Implementation
+Linear Search to Find Books by Title
+
+public class LibraryManagementSystem {
+    private Book[] books;
+    private int size;
+    
+    public LibraryManagementSystem(int capacity) {
+        this.books = new Book[capacity];
+        this.size = 0;
+    }
+    
+    public void addBook(Book book) {
+        if (size < books.length) {
+            books[size] = book;
+            size++;
+        } else {
+            System.out.println("Library is full. Cannot add more books.");
+        }
+    }
+
+   
+    public Book linearSearchByTitle(String title) {
+        for (int i = 0; i < size; i++) {
+            if (books[i].title.equalsIgnoreCase(title)) {
+                return books[i];
+            }
+        }
+        return null;
+    }
+
+    
+    public Book binarySearchByTitle(String title) {
+        int left = 0;
+        int right = size - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int result = title.compareToIgnoreCase(books[mid].title);
+            if (result == 0) {
+                return books[mid];
+            }
+            if (result > 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        LibraryManagementSystem library = new LibraryManagementSystem(5);
+
+        Book book1 = new Book(1, "The Great Gatsby", "F. Scott Fitzgerald");
+        Book book2 = new Book(2, "Moby Dick", "Herman Melville");
+        Book book3 = new Book(3, "1984", "George Orwell");
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+
+        System.out.println("Linear Search for '1984':");
+        Book result1 = library.linearSearchByTitle("1984");
+        System.out.println(result1 != null ? result1 : "Book not found.");
+
+        System.out.println("\nBinary Search for '1984':");
+        Book result2 = library.binarySearchByTitle("1984");
+        System.out.println(result2 != null ? result2 : "Book not found.");
+    }
+}
+
+Step 4: Analysis
+Time Complexity of Each Operation
+Add:
+Best Case: O(1)
+Worst Case: O(1)
+Linear Search:
+Best Case: O(1) (when the target element is the first one)
+Average/Worst Case: O(n)
+Binary Search:
+Best Case: O(1) (when the middle element is the target)
+Average/Worst Case: O(log n)
+When to Use Each Algorithm
+Linear Search:
+Suitable for small datasets where the overhead of sorting is not justified.
+Useful when the dataset is unsorted or rarely sorted.
+Binary Search:
+Ideal for large, sorted datasets due to its logarithmic time complexity.
+Requires the dataset to be sorted, which might incur additional overhead if frequent insertions or deletions occur.
