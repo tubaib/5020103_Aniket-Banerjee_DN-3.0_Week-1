@@ -1,0 +1,75 @@
+Step 1: Understand Recursive Algorithms
+Concept of Recursion:
+
+Definition: Recursion is a method where the solution to a problem depends on solutions to smaller instances of the same problem. A function that calls itself directly or indirectly is called recursive.
+Base Case: The simplest case of the problem which can be solved without further recursion.
+Recursive Case: The case where the function calls itself with a smaller or simpler subset of the problem.
+Benefits: Simplifies code and can solve complex problems more intuitively, especially when the problem has a repetitive structure or natural hierarchy.
+
+Step 3: Implementation
+Recursive Algorithm Implementation:
+
+Here is the Java implementation for a recursive algorithm to predict future values:
+public class FinancialForecasting {
+
+   
+    public static double calculateFutureValue(double initialValue, double growthRate, int years) {
+        
+        if (years == 0) {
+            return initialValue;
+        }
+        
+        return calculateFutureValue(initialValue, growthRate, years - 1) * (1 + growthRate);
+    }
+
+    public static void main(String[] args) {
+        double initialValue = 1000.0;
+        double growthRate = 0.05; 
+        int years = 10;
+        double futureValue = calculateFutureValue(initialValue, growthRate, years);
+        System.out.printf("Future value after %d years: %.2f%n", years, futureValue);
+    }
+}
+
+Step 4: Analysis
+Time Complexity of the Recursive Algorithm:
+
+Time Complexity: O(n), where n is the number of years. Each recursive call performs a constant amount of work and the recursion depth is n, leading to linear time complexity.
+Space Complexity: O(n) due to the function call stack, which grows with the depth of recursion.
+Optimizing the Recursive Solution:
+
+Memoization: To avoid redundant calculations, use a cache to store results of already computed values. This is particularly useful when dealing with overlapping subproblems.
+Iterative Approach: For problems where recursion depth could be very large, an iterative approach may be used to reduce space complexity by avoiding the recursion stack.
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class FinancialForecastingOptimized {
+
+    private static Map<Integer, Double> memo = new HashMap<>();
+
+    
+    public static double calculateFutureValue(double initialValue, double growthRate, int years) {
+       
+        if (years == 0) {
+            return initialValue;
+        }
+        // Check if the result is already computed
+        if (memo.containsKey(years)) {
+            return memo.get(years);
+        }
+       
+        double futureValue = calculateFutureValue(initialValue, growthRate, years - 1) * (1 + growthRate);
+        memo.put(years, futureValue);
+        return futureValue;
+    }
+
+    public static void main(String[] args) {
+        double initialValue = 1000.0; 
+        double growthRate = 0.05; 
+        int years = 10; 
+
+        double futureValue = calculateFutureValue(initialValue, growthRate, years);
+        System.out.printf("Future value after %d years: %.2f%n", years, futureValue);
+    }
+}
