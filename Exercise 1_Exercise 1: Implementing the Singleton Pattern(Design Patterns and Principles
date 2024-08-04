@@ -1,0 +1,55 @@
+1. Create a New Java Project
+Open your preferred Java IDE (such as IntelliJ IDEA, Eclipse, etc.).
+Create a new Java project named SingletonPatternExample.
+
+2. Define a Singleton Class
+
+
+public class Logger {
+    
+    private static Logger instance;
+
+   
+    private Logger() {}
+
+    
+    public static Logger getInstance() {
+        if (instance == null) {
+            instance = new Logger();
+        }
+        return instance;
+    }
+
+   
+    public void log(String message) {
+        System.out.println(message);
+    }
+}
+
+3.Implement the Singleton Pattern
+The steps above have already implemented the Singleton pattern for the Logger class. Let's break down the implementation:
+
+Private static instance: This is to hold the single instance of the Logger class.
+Private constructor: This prevents the creation of new instances from outside the class.
+Public static method: This provides a global access point to get the instance of the Logger class. It initializes the instance if it hasn't been already.
+
+4.Test the Singleton Implementation
+public class SingletonTest {
+    public static void main(String[] args) {
+        
+        Logger logger1 = Logger.getInstance();
+        logger1.log("This is the first log message.");
+
+        
+        Logger logger2 = Logger.getInstance();
+        logger2.log("This is the second log message.");
+
+        
+        if (logger1 == logger2) {
+            System.out.println("Both logger1 and logger2 are the same instance.");
+        } else {
+            System.out.println("logger1 and logger2 are different instances.");
+        }
+    }
+}
+
