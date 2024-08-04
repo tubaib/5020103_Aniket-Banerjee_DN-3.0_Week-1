@@ -1,0 +1,88 @@
+1. Create a New Java Project
+Open your preferred Java IDE (such as IntelliJ IDEA, Eclipse, etc.).
+Create a new Java project named AdapterPatternExample.
+
+2.Define Target Interface
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+3. Implement Adaptee Classes
+
+public class PayPal {
+    public void makePayment(double amount) {
+        System.out.println("Processing payment of $" + amount + " through PayPal.");
+    }
+}
+
+
+public class Stripe {
+    public void charge(double amount) {
+        System.out.println("Charging $" + amount + " through Stripe.");
+    }
+}
+
+
+public class Square {
+    public void doPayment(double amount) {
+        System.out.println("Completing payment of $" + amount + " through Square.");
+    }
+}
+
+4. Implement the Adapter Class
+
+public class PayPalAdapter implements PaymentProcessor {
+    private PayPal payPal;
+
+    public PayPalAdapter(PayPal payPal) {
+        this.payPal = payPal;
+    }
+
+   
+    public void processPayment(double amount) {
+        payPal.makePayment(amount);
+    }
+}
+
+
+public class StripeAdapter implements PaymentProcessor {
+    private Stripe stripe;
+
+    public StripeAdapter(Stripe stripe) {
+        this.stripe = stripe;
+    }
+
+   
+    public void processPayment(double amount) {
+        stripe.charge(amount);
+    }
+}
+
+
+public class SquareAdapter implements PaymentProcessor {
+    private Square square;
+
+    public SquareAdapter(Square square) {
+        this.square = square;
+    }
+
+ 
+    public void processPayment(double amount) {
+        square.doPayment(amount);
+    }
+}
+
+5.  Test the Adapter Implementation
+public class AdapterPatternTest {
+    public static void main(String[] args) {
+        PaymentProcessor payPalProcessor = new PayPalAdapter(new PayPal());
+        payPalProcessor.processPayment(100.00);
+
+        PaymentProcessor stripeProcessor = new StripeAdapter(new Stripe());
+        stripeProcessor.processPayment(200.00);
+
+        PaymentProcessor squareProcessor = new SquareAdapter(new Square());
+        squareProcessor.processPayment(300.00);
+    }
+}
+
