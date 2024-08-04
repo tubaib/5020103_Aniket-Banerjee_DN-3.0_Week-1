@@ -1,0 +1,55 @@
+1. Create a New Java Project
+Open your preferred Java IDE (such as IntelliJ IDEA, Eclipse, etc.).
+Create a new Java project named DependencyInjectionExample.
+
+2.Define Repository Interface
+public interface CustomerRepository {
+    Customer findCustomerById(int id);
+}
+
+3. Implement Concrete Repository
+public class CustomerRepositoryImpl implements CustomerRepository {
+  
+    public Customer findCustomerById(int id) {
+       
+        return new Customer(id, "John Doe", "john.doe@example.com");
+    }
+}
+
+4.Define Service Class
+public class CustomerService {
+    private CustomerRepository customerRepository;
+
+    
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    public Customer getCustomerById(int id) {
+        return customerRepository.findCustomerById(id);
+    }
+}
+
+5.Implement Dependency Injection
+Use constructor injection to inject CustomerRepository into CustomerService. This step is already demonstrated in the CustomerService class above.
+
+6.Test the Dependency Injection Implementation
+
+public class DependencyInjectionTest {
+    public static void main(String[] args) {
+        
+        CustomerRepository repository = new CustomerRepositoryImpl();
+
+        
+        CustomerService service = new CustomerService(repository);
+
+        
+        Customer customer = service.getCustomerById(1);
+        System.out.println("Customer Details:");
+        System.out.println("ID: " + customer.getId());
+        System.out.println("Name: " + customer.getName());
+        System.out.println("Email: " + customer.getEmail());
+    }
+}
+
+
