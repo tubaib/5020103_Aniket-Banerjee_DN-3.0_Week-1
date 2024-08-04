@@ -1,0 +1,98 @@
+1. Create a New Java Project
+Open your preferred Java IDE (such as IntelliJ IDEA, Eclipse, etc.).
+Create a new Java project named FactoryMethodPatternExample.
+
+2.Define Document Classes
+public interface Document {
+    void open();
+    void close();
+}
+
+Create interfaces or abstract classes for different document types such as WordDocument, PdfDocument, and ExcelDocument.
+public class WordDocument implements Document {
+   
+    public void open() {
+        System.out.println("Opening Word document...");
+    }
+
+    
+    public void close() {
+        System.out.println("Closing Word document...");
+    }
+}
+
+public class PdfDocument implements Document {
+   
+    public void open() {
+        System.out.println("Opening PDF document...");
+    }
+
+    
+    public void close() {
+        System.out.println("Closing PDF document...");
+    }
+}
+
+public class ExcelDocument implements Document {
+   
+    public void open() {
+        System.out.println("Opening Excel document...");
+    }
+
+   
+    public void close() {
+        System.out.println("Closing Excel document...");
+    }
+}
+
+3.Create Concrete Document Classes
+The concrete document classes (WordDocument, PdfDocument, and ExcelDocument) are already created in the previous step. They implement the Document interface.
+
+4.Implement the Factory Method
+public abstract class DocumentFactory {
+    public abstract Document createDocument();
+}
+
+Create concrete factory classes for each document type that extend DocumentFactory and implement the createDocument() method.
+public class WordDocumentFactory extends DocumentFactory {
+    
+    public Document createDocument() {
+        return new WordDocument();
+    }
+}
+
+public class PdfDocumentFactory extends DocumentFactory {
+   
+    public Document createDocument() {
+        return new PdfDocument();
+    }
+}
+
+public class ExcelDocumentFactory extends DocumentFactory {
+   
+    public Document createDocument() {
+        return new ExcelDocument();
+    }
+}
+
+5.Test the Factory Method Implementation
+public class FactoryMethodTest {
+    public static void main(String[] args) {
+        DocumentFactory wordFactory = new WordDocumentFactory();
+        Document wordDoc = wordFactory.createDocument();
+        wordDoc.open();
+        wordDoc.close();
+
+        DocumentFactory pdfFactory = new PdfDocumentFactory();
+        Document pdfDoc = pdfFactory.createDocument();
+        pdfDoc.open();
+        pdfDoc.close();
+
+        DocumentFactory excelFactory = new ExcelDocumentFactory();
+        Document excelDoc = excelFactory.createDocument();
+        excelDoc.open();
+        excelDoc.close();
+    }
+}
+
+
